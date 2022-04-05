@@ -43,7 +43,7 @@ jobs:
           running-workflow-name: 'deploy'
 
       - name: Install dependencies
-      - run: yarn install --immutable
+        run: yarn install --immutable
 
       - name: Build project
         run: yarn build
