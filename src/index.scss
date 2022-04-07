@@ -12,7 +12,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: $lightest;
   background-color: $darkest;
-  background: url('../assets/images/background.svg') no-repeat center center fixed;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  // background: url('../assets/images/background.svg') no-repeat center center fixed;
+}
+
+a {
+  color: $lightest;
+  text-decoration: none;
+  transition: color 0.4s;
+
+  &:hover {
+    color: $light;
+  }
 }
 
 span {

@@ -1,21 +1,22 @@
 {
-  "name": "ethereum-wallet-info",
+  "name": "ethereum-blockchain-explorer",
   "version": "1.0.0",
-  "description": "Display information about your Ethereum wallet.",
+  "description": "Search the Ethereum blockchain for information about transactions, blocks, and addresses.",
   "author": "James",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/moodiest/ethereum-wallet-info.git"
+    "url": "git+https://github.com/moodiest/ethereum-blockchain-explorer.git"
   },
   "bugs": {
-    "url": "https://github.com/moodiest/ethereum-wallet-info/issues"
+    "url": "https://github.com/moodiest/ethereum-blockchain-explorer/issues"
   },
-  "homepage": "https://github.com/moodiest/ethereum-wallet-info#readme",
+  "homepage": "https://github.com/moodiest/ethereum-blockchain-explorer#readme",
   "keywords": [
     "ethereum",
     "eth",
     "ethers.js",
-    "wallet"
+    "blockchain",
+    "explorer"
   ],
   "license": "MIT",
   "private": false,
@@ -33,6 +34,7 @@
     "@commitlint/config-conventional": "^16.2.1",
     "@types/react": "^17.0.43",
     "@types/react-dom": "^17.0.14",
+    "@types/react-transition-group": "^4.4.4",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
     "@vitejs/plugin-react": "^1.3.0",
@@ -59,8 +61,11 @@
   },
   "dependencies": {
     "ethers": "^5.6.2",
+    "moment": "^2.29.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-router-dom": "^6.3.0"
+    "react-jazzicon": "^1.0.3",
+    "react-router-dom": "^6.3.0",
+    "react-transition-group": "^4.4.2"
   }
 }

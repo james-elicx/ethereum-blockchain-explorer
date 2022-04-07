@@ -1,0 +1,13 @@
+@import '../../variables.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  margin: 10px;
+  padding: 10px;
+  background-color: $darker;
+  border: 1px solid $darkish;
+  border-radius: 10px;
+  width: fit-content;
+}

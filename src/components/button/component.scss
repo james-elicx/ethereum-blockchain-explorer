@@ -1,0 +1,39 @@
+@import '../../variables.scss';
+
+button {
+  font-family: inherit;
+  width: fit-content;
+  background-color: $dark;
+  border: 1px solid $darkish;
+  border-radius: 10px;
+  padding: 10px;
+  color: $lightest;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-size: 18px;
+  font-weight: $w-light;
+  margin: 7px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &.invert-color {
+    background: $darkish;
+    // border: 1px solid $darker;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: $dark-hover;
+    outline: none;
+  }
+
+  &:disabled {
+    color: $darker;
+    cursor: initial;
+    background-color: $dark-hover;
+    border-color: $dark-hover;
+  }
+}
