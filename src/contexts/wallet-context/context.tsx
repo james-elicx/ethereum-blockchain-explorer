@@ -115,17 +115,23 @@ export const WalletProvider = ({ children }: Props): JSX.Element => {
     [sendToast],
   );
 
+  const onDebug = useCallback((data: unknown) => {
+    console.debug('Debug:', data);
+  }, []);
+
   useEffect(() => {
     if (!metaMask) return;
 
+    // metaMask.on('debug', onDebug);
     metaMask.provider.on('accountsChanged', onAccountsChanged);
     metaMask.provider.on('chainChanged', onChainChanged);
 
     return () => {
+      // metaMask.removeListener('debug', onDebug);
       metaMask.provider.removeListener('accountsChanged', onAccountsChanged);
       metaMask.provider.removeListener('chainChanged', onChainChanged);
     };
-  }, [metaMask, onAccountsChanged, onChainChanged]);
+  }, [metaMask, onAccountsChanged, onChainChanged, onDebug]);
 
   useEffect(() => {
     if (!account) return;

@@ -1,21 +1,22 @@
 {
-  "name": "ethereum-wallet-info",
+  "name": "ethereum-blockchain-explorer",
   "version": "1.0.0",
-  "description": "Display information about your Ethereum wallet.",
+  "description": "Search the Ethereum blockchain for information about transactions, blocks, and addresses.",
   "author": "James",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/moodiest/ethereum-wallet-info.git"
+    "url": "git+https://github.com/moodiest/ethereum-blockchain-explorer.git"
   },
   "bugs": {
-    "url": "https://github.com/moodiest/ethereum-wallet-info/issues"
+    "url": "https://github.com/moodiest/ethereum-blockchain-explorer/issues"
   },
-  "homepage": "https://github.com/moodiest/ethereum-wallet-info#readme",
+  "homepage": "https://github.com/moodiest/ethereum-blockchain-explorer#readme",
   "keywords": [
     "ethereum",
     "eth",
     "ethers.js",
-    "wallet"
+    "blockchain",
+    "explorer"
   ],
   "license": "MIT",
   "private": false,
@@ -60,6 +61,7 @@
   },
   "dependencies": {
     "ethers": "^5.6.2",
+    "moment": "^2.29.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-jazzicon": "^1.0.3",
