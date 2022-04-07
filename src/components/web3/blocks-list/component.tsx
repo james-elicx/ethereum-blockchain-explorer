@@ -1,9 +1,9 @@
 import { FlexBox } from '../../../components';
-import { useInfura } from '../../../contexts';
+import { useChain } from '../../../contexts';
 import { BlockItem } from '../../../components/web3';
 
 export const Blocks = (): JSX.Element => {
-  const { blocks } = useInfura();
+  const { blocks } = useChain();
 
   return (
     <FlexBox direction="col">
