@@ -8,7 +8,7 @@ export const Transactions = () => {
 
   return (
     <FlexBox direction="col">
-      {transactions
+      {[...transactions.values()]
         .sort((a, b) => {
           // eslint-disable-next-line import/no-named-as-default-member
           return !b.timestamp || !a.timestamp ? moment.now() : b.timestamp - a.timestamp;
