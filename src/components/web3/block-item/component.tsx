@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import type { BlockWithTransactions, TransactionResponse } from '@ethersproject/abstract-provider';
 import { BigNumber, utils } from 'ethers';
-import moment, { relativeTimeThreshold } from 'moment';
+import moment from 'moment';
 import { FlexBox } from '../../../components';
 import './component.scss';
 
@@ -10,7 +10,8 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
   block: BlockWithTransactions;
 };
 
-relativeTimeThreshold('ss', 0);
+// eslint-disable-next-line import/no-named-as-default-member
+moment.relativeTimeThreshold('ss', 0);
 
 const Transactions = memo(({ txs }: { txs: TransactionResponse[] }) => (
   <span className="block-normal">
