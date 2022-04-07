@@ -1,13 +1,13 @@
 import { FlexBox } from '../../components';
 import { Blocks, Transactions } from '../../components/web3';
-import { InfuraProvider } from '../../contexts';
+import { ChainProvider } from '../../contexts';
 
 export const App = (): JSX.Element => {
   return (
     <>
       <h1>Hello World</h1>
 
-      <InfuraProvider>
+      <ChainProvider>
         <FlexBox>
           <FlexBox direction="col">
             <span style={{ margin: '10px 15px', fontSize: '18px' }}>Recent Blocks</span>
@@ -19,7 +19,7 @@ export const App = (): JSX.Element => {
             <Transactions />
           </FlexBox>
         </FlexBox>
-      </InfuraProvider>
+      </ChainProvider>
     </>
   );
 };

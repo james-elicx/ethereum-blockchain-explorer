@@ -1,10 +1,10 @@
 import moment from 'moment';
 import { FlexBox } from '../../../components';
-import { useInfura } from '../../../contexts';
+import { useChain } from '../../../contexts';
 import { trimAddress } from '../../../utils';
 
 export const Transactions = () => {
-  const { transactions } = useInfura();
+  const { transactions } = useChain();
 
   return (
     <FlexBox direction="col">

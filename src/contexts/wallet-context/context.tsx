@@ -59,8 +59,8 @@ export const WalletProvider = ({ children }: Props): JSX.Element => {
             }
           })
           .catch((err) => {
-            sendToast('Detected the wrong chain.');
-            console.error('Detected the wrong chain:', err.message);
+            sendToast('Detected the wrong chain on MetaMask.');
+            console.error('Detected the wrong chain on MetaMask:', err.message);
 
             metaMask.provider
               .request({
@@ -108,7 +108,7 @@ export const WalletProvider = ({ children }: Props): JSX.Element => {
       console.debug('MetaMask chain changed:', chain.slice(2));
 
       if (parseInt(chain.slice(2)) !== providers.getNetwork('homestead').chainId) {
-        sendToast('Detected the wrong chain. Please reconnect.');
+        sendToast('Detected the wrong chain on MetaMask.');
         setAccount(undefined);
       }
     },
