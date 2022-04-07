@@ -18,8 +18,10 @@ export const ChainProvider = ({ children }: Props): JSX.Element => {
   const [infura, setInfura] = useState<providers.InfuraWebSocketProvider | undefined>(undefined);
   const [cloudflare, setCloudflare] = useState<providers.CloudflareProvider | undefined>(undefined);
 
-  const [blocks, setBlocks] = useState<BlockWithTransactions[]>([]);
-  const [transactions, setTransactions] = useState<providers.TransactionResponse[]>([]);
+  const [blocks, setBlocks] = useState<Map<number, BlockWithTransactions>>(new Map());
+  const [transactions, setTransactions] = useState<Map<string, providers.TransactionResponse>>(
+    new Map(),
+  );
 
   useEffect(() => {
     if (!metaMask) return;
@@ -42,27 +44,20 @@ export const ChainProvider = ({ children }: Props): JSX.Element => {
 
           cf.getBlockWithTransactions(blockNum - i)
             .then((block) => {
-              setBlocks((prevBlocks) =>
-                prevBlocks.includes(block) ? prevBlocks : [...prevBlocks, block],
-              );
+              setBlocks((prev) => prev.set(block.number, block));
 
-              setTransactions((prevTransactions) => [
-                ...prevTransactions,
-                ...block.transactions.map((tx) => ({ timestamp: block.timestamp, ...tx })),
-              ]);
+              setTransactions((prev) => {
+                const newTransactions = new Map(prev);
+
+                block.transactions.forEach((tx) => {
+                  tx.timestamp = block.timestamp;
+                  newTransactions.set(tx.hash, tx);
+                });
+
+                return newTransactions;
+              });
             })
             .catch((e) => console.error('CloudFlare Ethereum Gateway Error:', e));
-
-          // metaMask?.getBlockWithTransactions(blockNum - i).then((block) => {
-          //   setBlocks((prevBlocks) =>
-          //     prevBlocks.includes(block) ? prevBlocks : [...prevBlocks, block],
-          //   );
-
-          //   setTransactions((prevTransactions) => [
-          //     ...prevTransactions,
-          //     ...block.transactions.map((tx) => ({ timestamp: block.timestamp, ...tx })),
-          //   ]);
-          // });
         }
       })
       .catch((e) => console.error('CloudFlare Ethereum Gateway Error:', e));
@@ -78,21 +73,22 @@ export const ChainProvider = ({ children }: Props): JSX.Element => {
 
   const onBlock = useCallback(
     (blockNum: number) => {
+      if (!cloudflare) return;
       console.debug('New block:', blockNum);
 
-      cloudflare?.getBlockWithTransactions(blockNum).then((block) => {
-        setBlocks((prevBlocks) =>
-          prevBlocks.includes(block) ? prevBlocks : [...prevBlocks, block],
-        );
+      cloudflare.getBlockWithTransactions(blockNum).then((block) => {
+        setBlocks((prevBlocks) => prevBlocks.set(block.number, block));
 
-        if (block.transactions.length > 5) {
-          setTransactions(block.transactions.map((tx) => ({ timestamp: block.timestamp, ...tx })));
-        } else {
-          setTransactions((prevTransactions) => [
-            ...prevTransactions,
-            ...block.transactions.map((tx) => ({ timestamp: block.timestamp, ...tx })),
-          ]);
-        }
+        setTransactions((prev) => {
+          const newTransactions = block.transactions.length > 5 ? new Map() : new Map(prev);
+
+          block.transactions.forEach((tx) => {
+            tx.timestamp = block.timestamp;
+            newTransactions.set(tx.hash, tx);
+          });
+
+          return newTransactions;
+        });
       });
     },
     [cloudflare],

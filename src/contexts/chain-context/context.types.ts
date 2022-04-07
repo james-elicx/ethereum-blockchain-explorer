@@ -2,7 +2,7 @@ import type { providers } from 'ethers';
 import type { BlockWithTransactions } from '@ethersproject/abstract-provider';
 
 export type IChainContext = {
-  blocks: BlockWithTransactions[];
+  blocks: Map<number, BlockWithTransactions>;
   infura: providers.InfuraWebSocketProvider | undefined;
-  transactions: providers.TransactionResponse[];
+  transactions: Map<string, providers.TransactionResponse>;
 };

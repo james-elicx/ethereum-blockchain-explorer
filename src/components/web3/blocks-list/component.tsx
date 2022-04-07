@@ -7,7 +7,7 @@ export const Blocks = (): JSX.Element => {
 
   return (
     <FlexBox direction="col">
-      {blocks
+      {[...blocks.values()]
         .sort((a, b) => b.number - a.number)
         .slice(0, 5)
         .map((block) => (
