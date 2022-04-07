@@ -23,6 +23,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "vite build",
+    "deploy": "yarn lint && yarn tsc && yarn test && yarn build",
     "test": "vitest run --passWithNoTests",
     "watch": "vite",
     "lint": "eslint . --ext js,ts,jsx,tsx",
