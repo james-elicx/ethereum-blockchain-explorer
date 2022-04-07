@@ -51,9 +51,10 @@ jobs:
           VITE_INFURA_PROJECT_ID: ${{ secrets.VITE_INFURA_PROJECT_ID }}
 
       - name: Push to cf-pages
-        uses: s0/git-publish-subdir-action@develop
+        uses: moodiest/git-publish-subdir-action@develop
         env:
           REPO: self
           BRANCH: cf-pages
           FOLDER: dist
+          MESSAGE: Deploy to CloudFlare Pages
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
