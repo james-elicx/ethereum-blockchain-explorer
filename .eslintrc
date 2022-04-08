@@ -3,7 +3,7 @@
   "env": {
     "es2021": true,
     "node": true,
-    "browser": false
+    "browser": true
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -13,7 +13,7 @@
     },
     "ecmaVersion": 2021,
     "sourceType": "module",
-    "project": ["./tsconfig.eslint.json", "./packages/*/tsconfig.json"]
+    "project": ["./tsconfig.eslint.json"]
   },
   "extends": [
     "airbnb-typescript",
@@ -53,9 +53,9 @@
   "settings": {
     "import/resolver": {
       "typescript": {
-        "project": ["./tsconfig.eslint.json", "./packages/*/tsconfig.json"]
+        "project": ["./tsconfig.eslint.json"]
       }
     }
   },
-  "ignorePatterns": ["node_modules", "packages/**/dist", "dist"]
+  "ignorePatterns": ["node_modules", "dist"]
 }

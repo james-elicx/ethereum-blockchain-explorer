@@ -13,7 +13,7 @@ export const ToastContainer = ({ messages, handleClose }: ToastContainerProps): 
 
       return (
         <CSSTransition key={toast.id} timeout={400} classNames="toast" nodeRef={toastRef}>
-          <div className="toast" ref={toastRef}>
+          <div id={`toast-${toast.id}`} className="toast" ref={toastRef}>
             <span className="toast-message">{toast.message}</span>
             <Button className="toast-close" onClick={() => handleClose(toast.id)}>
               Close
