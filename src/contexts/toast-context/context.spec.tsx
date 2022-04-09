@@ -101,7 +101,7 @@ test('Toast closes on close button click', async () => {
   });
 
   const toastClosed = toastContainer.querySelector('.toast') as HTMLDivElement;
-  expect(toastClosed).not.toBeTruthy();
+  expect(toastClosed).toBeFalsy();
 });
 
 test('Toast closes on its own', async () => {
@@ -141,3 +141,79 @@ test('Toast closes on its own', async () => {
   // For some reason, in the test, the toast will not actually finish the exit transition.
   expect([...toast.classList.values()]).toContain('toast-exit-active');
 }, 10000);
+
+test('Send and remove multiple toasts', async () => {
+  act(() => {
+    createRoot(container).render(
+      <ToastProvider>
+        <HookTester />
+      </ToastProvider>,
+    );
+  });
+
+  const testHelperBtn = container.querySelector('.test-helper') as HTMLButtonElement;
+  expect(testHelperBtn).toBeTruthy();
+  expect(testHelperBtn.textContent).toBe('Send Toast');
+
+  const toastContainer = container.querySelector('.toast-container') as HTMLDivElement;
+  expect(toastContainer).toBeTruthy();
+
+  act(() => {
+    Simulate.click(testHelperBtn);
+  });
+
+  let toast = toastContainer.querySelector('.toast') as HTMLDivElement;
+  expect(toast).toBeTruthy();
+
+  let allToasts = toastContainer.querySelectorAll('.toast') as NodeListOf<HTMLDivElement>;
+  expect(allToasts.length).toBe(1);
+
+  act(() => {
+    Simulate.click(testHelperBtn);
+  });
+
+  allToasts = toastContainer.querySelectorAll('.toast') as NodeListOf<HTMLDivElement>;
+  expect(allToasts.length).toBe(2);
+
+  const toastMessage = toastContainer.querySelectorAll(
+    '.toast-message',
+  ) as NodeListOf<HTMLSpanElement>;
+  expect(toastMessage.length).toBe(2);
+  expect(toastMessage).toBeTruthy();
+  expect(toastMessage[0].textContent).toBe('This is a test toast');
+  expect(toastMessage[1].textContent).toBe('This is a test toast');
+
+  let toastCloseBtn = toast.querySelectorAll('.toast-close')[0] as HTMLButtonElement;
+  expect(toastCloseBtn).toBeTruthy();
+
+  act(() => {
+    Simulate.click(toastCloseBtn);
+  });
+
+  await act(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  });
+
+  allToasts = toastContainer.querySelectorAll('.toast') as NodeListOf<HTMLDivElement>;
+  expect(allToasts.length).toBe(1);
+
+  toast = toastContainer.querySelector('.toast') as HTMLDivElement;
+  expect(toast).toBeTruthy();
+
+  toastCloseBtn = toast.querySelectorAll('.toast-close')[0] as HTMLButtonElement;
+  expect(toastCloseBtn).toBeTruthy();
+
+  act(() => {
+    Simulate.click(toastCloseBtn);
+  });
+
+  await act(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 750));
+  });
+
+  allToasts = toastContainer.querySelectorAll('.toast') as NodeListOf<HTMLDivElement>;
+  expect(allToasts.length).toBe(0);
+
+  const toastClosed = toastContainer.querySelector('.toast') as HTMLDivElement;
+  expect(toastClosed).toBeFalsy();
+});
