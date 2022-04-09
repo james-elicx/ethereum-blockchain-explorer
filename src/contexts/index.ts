@@ -1,3 +1,4 @@
 export * from './wallet-context';
 export * from './toast-context';
-export * from './chain-context';
+export * from './cloudflare-context';
+export * from './infura-context';
