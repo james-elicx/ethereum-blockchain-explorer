@@ -1,4 +1,4 @@
-@import './variables.scss';
+@use 'src/variables' as v;
 
 body {
   margin: 0;
@@ -6,12 +6,12 @@ body {
 }
 
 #app {
-  height: 100vh;
+  min-height: 100vh;
   font-family: Roboto, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: $lightest;
-  background-color: $darkest;
+  color: v.$lightest;
+  background-color: v.$darkest;
 
   display: flex;
   flex-direction: column;
@@ -21,15 +21,15 @@ body {
 }
 
 a {
-  color: $lightest;
+  color: v.$lightest;
   text-decoration: none;
   transition: color 0.4s;
 
   &:hover {
-    color: $light;
+    color: v.$light;
   }
 }
 
 span {
-  font-weight: $w-light;
+  font-weight: v.$w-light;
 }

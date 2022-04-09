@@ -1,3 +1,7 @@
+import clsx from 'clsx';
+
+import './component.scss';
+
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   direction?: 'col' | 'column' | 'row';
   justify?:
@@ -19,25 +23,28 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
     | 'inherit'
     | 'flex-start'
     | 'flex-end';
+  wrap?: 'wrap' | 'nowrap' | 'wrap-reverse' | 'initial' | 'inherit';
 };
 
 export const FlexBox = ({
-  align = 'initial',
+  align = undefined,
   children,
+  className,
   direction = 'row',
-  justify = 'initial',
-  style,
+  justify = undefined,
+  wrap = undefined,
   ...rest
 }: Props): JSX.Element => {
   return (
     <div
-      style={{
-        display: 'flex',
-        flexDirection: direction === 'col' ? 'column' : direction,
-        justifyContent: justify,
-        alignItems: align,
-        ...style,
-      }}
+      className={clsx(
+        className,
+        'f-flexbox',
+        justify && `f-justify-${justify}`,
+        align && `f-align-${align}`,
+        wrap && `f-wrap-${wrap}`,
+        direction && `f-dir-${direction}`,
+      )}
       {...rest}
     >
       {children}

@@ -1,0 +1,120 @@
+/**
+ *   Flexbox
+ */
+
+.f-flexbox {
+  display: flex;
+}
+
+/**
+ * Flexbox Justify Content
+ */
+
+.f-justify-start {
+  justify-content: start;
+}
+
+.f-justify-end {
+  justify-content: end;
+}
+
+.f-justify-center {
+  justify-content: center;
+}
+
+.f-justify-space-around {
+  justify-content: space-around;
+}
+
+.f-justify-space-between {
+  justify-content: space-between;
+}
+
+.f-justify-space-evenly {
+  justify-content: space-evenly;
+}
+
+.f-justify-initial {
+  justify-content: initial;
+}
+
+.f-justify-inherit {
+  justify-content: inherit;
+}
+
+/**
+ * Flexbox Align Items
+ */
+
+.f-align-start {
+  align-items: start;
+}
+
+.f-align-end {
+  align-items: end;
+}
+
+.f-align-center {
+  align-items: center;
+}
+
+.f-align-baseline {
+  align-items: baseline;
+}
+
+.f-align-stretch {
+  align-items: stretch;
+}
+
+.f-align-initial {
+  align-items: initial;
+}
+
+.f-align-inherit {
+  align-items: inherit;
+}
+
+.f-align-flex-start {
+  align-items: flex-start;
+}
+
+.f-align-flex-end {
+  align-items: flex-end;
+}
+
+/**
+ * Flexbox Direction
+ */
+
+.f-dir-row {
+  flex-direction: row;
+}
+
+.f-dir-col,
+.f-dir-column {
+  flex-direction: column;
+}
+
+/**
+ * Flexbox Wrap
+ */
+
+.f-wrap-wrap {
+  flex-wrap: wrap;
+}
+
+.f-wrap-nowrap {
+  flex-wrap: nowrap;
+}
+
+.f-wrap-wrap-reverse {
+  flex-wrap: wrap-reverse;
+}
+
+.f-wrap-initial {
+  flex-wrap: initial;
+}
+
+.f-wrap-inherit {
+  flex-wrap: inherit;
+}
