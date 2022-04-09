@@ -1,5 +1,5 @@
 import { providers } from 'ethers';
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useToast } from '../../contexts';
 import { trimAddress } from '../../utils';
 import type { IWalletContext, WrappedProvider } from './context.types';
@@ -17,6 +17,7 @@ export const WalletProvider = ({ children }: Props): JSX.Element => {
 
   const [metaMask, setMetaMask] = useState<WrappedProvider | undefined>(undefined);
   const [account, setAccount] = useState<providers.JsonRpcSigner | undefined>(undefined);
+  const accountRef = useRef(account);
   const [address, setAddress] = useState<string>('');
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export const WalletProvider = ({ children }: Props): JSX.Element => {
           .getChainId()
           .then((chain) => {
             if (chain === providers.getNetwork('homestead').chainId) {
-              setAccount(metaMask.getSigner());
+              setAccount(signer);
             }
           })
           .catch((err) => {
@@ -98,9 +99,19 @@ export const WalletProvider = ({ children }: Props): JSX.Element => {
   const onAccountsChanged = useCallback(
     (accts: string[]) => {
       console.debug('MetaMask account changed:', accts);
-      if (metaMask && metaMask.provider.isMetaMask) setAccount(metaMask.getSigner());
+      if (
+        metaMask &&
+        metaMask.provider.isMetaMask &&
+        accountRef.current &&
+        accountRef.current !== metaMask.getSigner()
+      ) {
+        sendToast('Detected a different wallet on MetaMask.');
+        // Instead of updating account, set it to undefined and require reconnection.
+        setAccount(undefined);
+        setAddress('');
+      }
     },
-    [metaMask],
+    [metaMask, sendToast],
   );
 
   const onChainChanged = useCallback(
@@ -109,7 +120,9 @@ export const WalletProvider = ({ children }: Props): JSX.Element => {
 
       if (parseInt(chain.slice(2)) !== providers.getNetwork('homestead').chainId) {
         sendToast('Detected the wrong chain on MetaMask.');
+        // Instead of allowing account to remain, set it to undefined and require correct chain.
         setAccount(undefined);
+        setAddress('');
       }
     },
     [sendToast],
