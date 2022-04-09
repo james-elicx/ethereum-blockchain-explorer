@@ -11,9 +11,16 @@ export const SearchBox = (): JSX.Element => {
   const search = () => {
     console.log(searchTerm);
 
-    if (!isNaN(+searchTerm)) navigate(`/block/${searchTerm}`);
-    else if (/^0x([A-Fa-f0-9]{64})$/.test(searchTerm)) navigate(`/transaction/${searchTerm}`);
-    else navigate(`/address/${searchTerm}`);
+    if (/^([0-9]+)$/.test(searchTerm)) {
+      console.log('block', searchTerm);
+      navigate(`/block/${searchTerm}`);
+    } else if (/^0x([A-Fa-f0-9]{64})$/.test(searchTerm)) {
+      console.log('tx', searchTerm);
+      navigate(`/transaction/${searchTerm}`);
+    } else if (/^0x([A-Fa-f0-9]{40})$/.test(searchTerm)) {
+      console.log('addy', searchTerm);
+      navigate(`/address/${searchTerm}`);
+    }
   };
 
   return (
