@@ -33,8 +33,9 @@ export const WalletProvider = ({ children }: Props): JSX.Element => {
       }
     }
 
-    sendToast('MetaMask not detected.');
-    console.warn('MetaMask not detected.');
+    // TODO: Should the connect button be hidden if no MetaMask is detected?
+    // sendToast('MetaMask not detected.');
+    // console.warn('MetaMask not detected.');
   }, [sendToast]);
 
   const connect = () => {
