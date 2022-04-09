@@ -8,13 +8,13 @@ export const App = (): JSX.Element => {
       <h1>Hello World</h1>
 
       <InfuraProvider>
-        <FlexBox style={{ margin: 10 }}>
-          <FlexBox direction="col" style={{ marginRight: 5 }}>
+        <FlexBox justify="center" wrap="wrap" style={{ margin: 5 }}>
+          <FlexBox direction="col" style={{ margin: 5 }}>
             <span style={{ margin: '10px 15px', fontSize: '18px' }}>Recent Blocks</span>
             <Blocks />
           </FlexBox>
 
-          <FlexBox direction="col" style={{ marginLeft: 5 }}>
+          <FlexBox direction="col" style={{ margin: 5 }}>
             <span style={{ margin: '10px 15px', fontSize: '18px' }}>Recent Transactions</span>
             <Transactions />
           </FlexBox>

@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@use 'src/variables' as v;
 
 .container {
   display: flex;
@@ -6,8 +6,8 @@
 
   margin: 10px;
   padding: 10px;
-  background-color: $darker;
-  border: 1px solid $darkish;
+  background-color: v.$darker;
+  border: 1px solid v.$darkish;
   border-radius: 10px;
   width: fit-content;
 }

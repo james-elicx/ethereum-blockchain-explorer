@@ -1,6 +1,21 @@
+@use 'src/mq';
+
 .navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
   width: 70%;
   padding: 15px 0;
 
   font-size: 18px;
+
+  @include mq.mq($until: tablet) {
+    justify-content: center;
+
+    .connect-btn {
+      display: none;
+    }
+  }
 }

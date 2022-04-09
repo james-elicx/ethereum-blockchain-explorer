@@ -1,4 +1,4 @@
-@import '../../../../variables.scss';
+@use 'src/variables' as v;
 
 .block-item {
   display: flex;
@@ -11,13 +11,13 @@
 
   margin: 5px;
   padding: 10px;
-  background-color: $darker;
-  border: 1px solid $darkish;
+  background-color: v.$darker;
+  border: 1px solid v.$darkish;
   border-radius: 10px;
 
   .block-heading {
     font-size: 16px;
-    font-weight: $w-regular;
+    font-weight: v.$w-regular;
   }
 
   .block-normal {
