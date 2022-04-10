@@ -1,0 +1,16 @@
+@use 'src/variables' as v;
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: auto;
+  width: 70%;
+  padding: 15px 0;
+
+  span {
+    color: v.$light;
+  }
+}

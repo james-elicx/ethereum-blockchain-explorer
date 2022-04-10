@@ -5,3 +5,4 @@ export * from './toast-container';
 export * from './container';
 export * from './input';
 export * from './search-box';
+export * from './footer';
