@@ -4,6 +4,8 @@ import { FlexBox, Input } from '../../components';
 import { useToast } from '../../contexts';
 import { Button } from '../button';
 
+import './component.scss';
+
 export const SearchBox = (): JSX.Element => {
   const navigate = useNavigate();
   const { sendToast } = useToast();
