@@ -1,25 +1,26 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FlexBox, Input } from '../../components';
+import { useToast } from '../../contexts';
 import { Button } from '../button';
+
+import './component.scss';
 
 export const SearchBox = (): JSX.Element => {
   const navigate = useNavigate();
+  const { sendToast } = useToast();
 
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const search = () => {
-    console.log(searchTerm);
-
-    if (/^([0-9]+)$/.test(searchTerm)) {
-      console.log('block', searchTerm);
-      navigate(`/block/${searchTerm}`);
-    } else if (/^0x([A-Fa-f0-9]{64})$/.test(searchTerm)) {
-      console.log('tx', searchTerm);
-      navigate(`/transaction/${searchTerm}`);
-    } else if (/^0x([A-Fa-f0-9]{40})$/.test(searchTerm)) {
-      console.log('addy', searchTerm);
+    if (/^0x([A-Fa-f0-9]{64})$/.test(searchTerm)) {
+      navigate(`/tx/${searchTerm}`);
+    } else if (/^0x([A-Fa-f0-9]{40})$/.test(searchTerm) || searchTerm.endsWith('.eth')) {
       navigate(`/address/${searchTerm}`);
+    } else if (/^([0-9]+)$/.test(searchTerm)) {
+      navigate(`/block/${searchTerm}`);
+    } else {
+      sendToast('Invalid search term.');
     }
   };
 
@@ -30,24 +31,15 @@ export const SearchBox = (): JSX.Element => {
       </span>
       <FlexBox direction="row" style={{ width: 'initial' }}>
         <Input
+          className="search-box-input"
           value={searchTerm}
           onChange={(e) => setSearchTerm((e.target as HTMLInputElement).value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') search();
           }}
           placeholder="0x52120CC1db2D69d235556aD0ebaFe1dAB99A2913"
-          style={{
-            width: '100%',
-            height: 'fit-content',
-            borderTopRightRadius: 0,
-            borderBottomRightRadius: 0,
-          }}
         />
-        <Button
-          style={{ fontSize: 16, margin: 0, borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
-          invertColor
-          onClick={() => search()}
-        >
+        <Button className="search-box-btn" invertColor onClick={() => search()}>
           Search
         </Button>
       </FlexBox>

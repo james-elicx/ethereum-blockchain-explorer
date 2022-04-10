@@ -5,8 +5,6 @@ import { InfuraProvider } from '../../contexts';
 export const App = (): JSX.Element => {
   return (
     <>
-      {/* <h1 style={{ margin: '1em' }}>Blockchain Explorer</h1> */}
-
       <FlexBox direction="col">
         <SearchBox />
 

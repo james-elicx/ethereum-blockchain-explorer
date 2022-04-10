@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import './component.scss';
 
 type Props = React.HTMLAttributes<HTMLButtonElement> & {
@@ -7,7 +8,7 @@ type Props = React.HTMLAttributes<HTMLButtonElement> & {
 
 export const Button = ({
   children,
-  className = '',
+  className,
   disabled = false,
   invertColor = false,
   ...rest
@@ -16,7 +17,7 @@ export const Button = ({
     <button
       disabled={disabled}
       type="button"
-      className={`${className} ${invertColor ? 'invert-color' : ''}`}
+      className={clsx(className, invertColor && 'invert-color')}
       {...rest}
     >
       {children}
