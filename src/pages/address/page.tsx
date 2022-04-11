@@ -1,8 +1,15 @@
 import { utils } from 'ethers';
 import { useEffect, useState } from 'react';
-import Skeleton from 'react-loading-skeleton';
 import { useParams } from 'react-router-dom';
-import { Container, FlexBox, SearchBox } from '../../components';
+import {
+  DataBox,
+  DataBoxContents,
+  DataBoxRow,
+  DataBoxTitle,
+  FlexBox,
+  SearchBox,
+  Skeleton,
+} from '../../components';
 import { Avatar } from '../../components/web3';
 import { useCloudflare, useToast } from '../../contexts';
 
@@ -22,6 +29,9 @@ export const Address = (): JSX.Element => {
 
   useEffect(() => console.log(address), [address]);
 
+  /**
+   * Fetch the address if a user inputs an ENS domain, otherwise parse the address.
+   */
   useEffect(() => {
     if (!id || !cloudflare) {
       if (!id) sendToast('Invalid address');
@@ -30,40 +40,36 @@ export const Address = (): JSX.Element => {
 
     if (id.endsWith('.eth')) {
       cloudflare
-        ?.resolveName(id)
+        .resolveName(id)
         .then((resolved) => {
           if (resolved) {
             setAddress(resolved);
           } else {
-            console.error('Invalid address');
-            sendToast('Invalid address');
-            setError('Invalid address');
+            throw new Error('Invalid address');
           }
         })
         .catch((err) => {
+          console.error(err);
           sendToast(err.message);
           setError(err.message);
-          console.error(err);
         })
         .finally(() => setLoading(false));
     } else {
-      console.log('else');
       try {
         const addy = utils.getAddress(id);
-        console.log(addy);
+
         if (addy) {
           setAddress(addy);
-          setLoading(false);
         } else {
-          console.error('Invalid address');
-          sendToast('Invalid address');
-          setError('Invalid address');
+          throw new Error('Invalid address');
         }
       } catch (err) {
         console.error(err);
         sendToast('Invalid address');
         setError('Invalid address');
       }
+
+      setLoading(false);
     }
 
     return () => {
@@ -73,13 +79,16 @@ export const Address = (): JSX.Element => {
     };
   }, [id, sendToast, cloudflare]);
 
+  /**
+   * Fetch balance and transaction count for an address.
+   */
   useEffect(() => {
     if (!address || !cloudflare) return;
 
     cloudflare
       .getBalance(address)
       .then((bal) => {
-        setBalance(parseFloat((+utils.formatEther(bal)).toFixed(5)));
+        setBalance(parseFloat((+utils.formatEther(bal)).toFixed(10)));
       })
       .catch((err) => {
         console.error('Error getting balance:', err);
@@ -102,15 +111,13 @@ export const Address = (): JSX.Element => {
     };
   }, [address, cloudflare, sendToast]);
 
-  // TODO: Change back to flex boxes and do responsiveness like etherscan does
-
   return error ? (
     <>
       <SearchBox style={{ marginTop: 'auto', marginBottom: '2em' }} />
       <span style={{ marginBottom: 'auto', fontSize: 18 }}>{error}</span>
     </>
   ) : loading ? (
-    <span>Loading</span>
+    <span>Loading page...</span>
   ) : (
     <FlexBox direction="col" style={{ width: '70%', margin: '15px 0' }}>
       <FlexBox align="center">
@@ -121,101 +128,33 @@ export const Address = (): JSX.Element => {
           </>
         ) : (
           <>
-            <Skeleton
-              baseColor="#24242d"
-              highlightColor="#292937"
-              count={1}
-              width={30}
-              height={30}
-              circle
-              style={{ marginRight: 10 }}
-            />
-            <Skeleton
-              baseColor="#24242d"
-              highlightColor="#292937"
-              count={1}
-              height={25}
-              width="100%"
-              containerClassName="skeleton-text-container"
-            />
+            <Skeleton width={30} height={30} style={{ marginRight: 10 }} />
           </>
         )}
       </FlexBox>
 
-      <FlexBox wrap="wrap" justify="space-between">
-        <Container className="container container-flex">
-          <table className="data-table">
-            <tr>
-              <th>Balance:</th>
-              <td>
-                {!balance ? (
-                  balance + ' ETH'
-                ) : (
-                  <Skeleton
-                    baseColor="#24242d"
-                    highlightColor="#292937"
-                    count={1}
-                    height={20.5}
-                    width="100%"
-                  />
-                )}
-              </td>
-            </tr>
-            <tr>
-              <th>Transactions:</th>
-              <td>
-                {txCount ? (
-                  txCount
-                ) : (
-                  <Skeleton
-                    baseColor="#24242d"
-                    highlightColor="#292937"
-                    count={1}
-                    height={20.5}
-                    width="100%"
-                  />
-                )}
-              </td>
-            </tr>
-          </table>
-        </Container>
+      <FlexBox wrap="wrap" justify="space-between" style={{ marginTop: 15 }}>
+        <DataBox>
+          <DataBoxTitle>Address Info</DataBoxTitle>
 
-        <Container className="container container-flex">
-          <table className="data-table">
-            <tr>
-              <th>Balance:</th>
-              <td>
-                {balance ? (
-                  balance + ' ETH'
-                ) : (
-                  <Skeleton
-                    baseColor="#24242d"
-                    highlightColor="#292937"
-                    count={1}
-                    height={20.5}
-                    width="100%"
-                  />
-                )}
-              </td>
-            </tr>
-            <tr>
-              <th>Transactions:</th>
-              <td>
-                {txCount ? (
-                  txCount
-                ) : (
-                  <Skeleton
-                    baseColor="#24242d"
-                    highlightColor="#292937"
-                    count={1}
-                    height={20.5}
-                    width="100%"
-                  />
-                )}
-              </td>
-            </tr>
-          </table>
-        </Container>
+          <DataBoxContents>
+            <DataBoxRow value={balance} after=" ETH">
+              Balance
+            </DataBoxRow>
+
+            <DataBoxRow value={txCount}>Transactions</DataBoxRow>
+          </DataBoxContents>
+        </DataBox>
+
+        <DataBox>
+          <DataBoxTitle>Additional Info</DataBoxTitle>
+
+          <DataBoxContents>
+            <DataBoxRow value={<a href={`https://etherscan.io/address/${address}`}>Click here</a>}>
+              Etherscan Link
+            </DataBoxRow>
+          </DataBoxContents>
+        </DataBox>
       </FlexBox>
     </FlexBox>
   );

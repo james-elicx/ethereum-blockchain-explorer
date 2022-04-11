@@ -1,41 +1,9 @@
 @use 'src/variables' as v;
-@use 'src/mq' as mq;
 
 .address-text {
   font-size: 18px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  max-width: calc(100% - 34px);
-}
-
-.skeleton-text-container {
-  width: calc(100% - 34px);
-}
-
-.data-table {
-  th,
-  td {
-    text-align: left;
-
-    max-width: 50%;
-    width: 100%;
-  }
-
-  th {
-    font-weight: v.$w-medium;
-  }
-}
-
-.container-flex {
-  flex: 0 0 50%;
-  margin: 20px 0 0 0;
-
-  @include mq.mq($until: tablet) {
-    min-width: calc(100% - 20px);
-  }
-
-  @include mq.mq($from: tablet) {
-    max-width: calc(50% - 32px);
-  }
+  max-width: calc(100% - 10px);
 }
