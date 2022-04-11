@@ -8,3 +8,4 @@ export * from './search-box';
 export * from './footer';
 export * from './skeleton';
 export * from './data-box';
+export * from './loading';

@@ -7,6 +7,7 @@ import {
   DataBoxRow,
   DataBoxTitle,
   FlexBox,
+  Loading,
   SearchBox,
   Skeleton,
 } from '../../components';
@@ -117,7 +118,7 @@ export const Address = (): JSX.Element => {
       <span style={{ marginBottom: 'auto', fontSize: 18 }}>{error}</span>
     </>
   ) : loading ? (
-    <span>Loading page...</span>
+    <Loading>Loading address...</Loading>
   ) : (
     <FlexBox direction="col" style={{ width: '70%', margin: '15px 0' }}>
       <FlexBox align="center">
