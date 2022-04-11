@@ -17,7 +17,7 @@ export const DataBoxRow = ({
 }: Props): JSX.Element => (
   <FlexBox className="data-row" direction="row" align="center" wrap="wrap">
     <span className="data-row-title">{children}</span>
-    {value ? (
+    {value !== undefined ? (
       <span className="data-row-value" {...rest}>
         {before}
         {value}
