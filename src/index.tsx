@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { CloudflareProvider, ToastProvider, WalletProvider } from './contexts';
-import { App, Maintenance } from './pages';
+import { Address, App, Maintenance } from './pages';
 import { Footer, Navigation } from './components';
 import './index.scss';
 
@@ -18,7 +18,7 @@ root.render(
             <Navigation />
 
             <Routes>
-              <Route path="/address/:id" element={<Maintenance />} />
+              <Route path="/address/:id" element={<Address />} />
               <Route path="/tx/:id" element={<Maintenance />} />
               <Route path="/block/:id" element={<Maintenance />} />
               <Route path="*" element={<App />} />
