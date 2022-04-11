@@ -4,20 +4,24 @@ import { useWallet } from '../../../contexts';
 
 type Props = {
   address: string;
+  diameter?: number;
+  style?: React.CSSProperties;
 };
 
-export const Avatar = memo(({ address }: Props): JSX.Element => {
-  const { metaMask } = useWallet();
+export const Avatar = memo(
+  ({ address, diameter = 24, style = { marginRight: 10 } }: Props): JSX.Element => {
+    const { metaMask } = useWallet();
 
-  const [avatar, setAvatar] = useState<string | null>(null);
+    const [avatar, setAvatar] = useState<string | null>(null);
 
-  metaMask?.getAvatar(address).then((data) => {
-    if (avatar) setAvatar(data);
-  });
+    metaMask?.getAvatar(address).then((data) => {
+      if (avatar) setAvatar(data);
+    });
 
-  return avatar ? (
-    <img style={{ width: 24, height: 24 }} src={avatar} alt="avatar" />
-  ) : (
-    <Jazzicon diameter={24} seed={jsNumberForAddress(address)} paperStyles={{ marginRight: 10 }} />
-  );
-});
+    return avatar ? (
+      <img style={{ width: diameter, height: diameter, ...style }} src={avatar} alt="avatar" />
+    ) : (
+      <Jazzicon diameter={diameter} seed={jsNumberForAddress(address)} paperStyles={style} />
+    );
+  },
+);
