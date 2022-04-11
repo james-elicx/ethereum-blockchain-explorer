@@ -1,0 +1,74 @@
+@use 'src/variables' as v;
+@use 'src/mq' as mq;
+
+.data-box {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 50%;
+
+  margin: 10px 0;
+  padding: 0;
+
+  background-color: v.$darker;
+  border: 1px solid v.$darkish;
+  border-radius: 10px;
+  width: fit-content;
+
+  @include mq.mq($until: tablet) {
+    min-width: calc(100% - 10px);
+  }
+
+  @include mq.mq($from: tablet) {
+    max-width: calc(50% - 10px);
+  }
+
+  .data-box-title {
+    padding: 10px;
+    border-bottom: 1px solid v.$darkish;
+    font-weight: 500;
+  }
+
+  .data-box-contents {
+    padding: 10px;
+  }
+
+  .data-row {
+    margin-bottom: 3px;
+
+    &:last-child {
+      margin-bottom: -3px;
+    }
+
+    .data-row-title {
+      margin-bottom: 3px;
+      min-width: 50%;
+      font-weight: v.$w-regular;
+    }
+
+    .data-row-value {
+      margin-bottom: 3px;
+
+      &.loading {
+        max-width: 50%;
+        width: 100%;
+      }
+    }
+
+    @include mq.mq($from: mobile, $until: mobile-wide) {
+      .data-row-title {
+        min-width: 60%;
+      }
+
+      .data-row-value {
+        &.loading {
+          max-width: 40%;
+        }
+      }
+    }
+
+    @include mq.mq($until: mobile) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}

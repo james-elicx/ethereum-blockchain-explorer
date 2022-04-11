@@ -6,7 +6,9 @@ import { Button } from '../button';
 
 import './component.scss';
 
-export const SearchBox = (): JSX.Element => {
+type Props = React.HTMLAttributes<HTMLDivElement>;
+
+export const SearchBox = ({ style, ...rest }: Props): JSX.Element => {
   const navigate = useNavigate();
   const { sendToast } = useToast();
 
@@ -25,7 +27,7 @@ export const SearchBox = (): JSX.Element => {
   };
 
   return (
-    <FlexBox direction="col" style={{ margin: '5em 5px', padding: 10 }}>
+    <FlexBox direction="col" style={{ margin: '5em 5px', padding: 10, ...style }} {...rest}>
       <span style={{ fontSize: 16, margin: '10px 15px' }}>
         Search for an address, block, or transaction...
       </span>

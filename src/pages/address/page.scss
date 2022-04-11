@@ -1,0 +1,9 @@
+@use 'src/variables' as v;
+
+.address-text {
+  font-size: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: calc(100% - 10px);
+}
