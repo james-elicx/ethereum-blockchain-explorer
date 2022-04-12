@@ -117,14 +117,26 @@ export const Block = (): JSX.Element => {
             </DataBoxRow>
 
             <DataBoxRow
-              value={transactions ? valueOfTxs(transactions).toLocaleString() : undefined}
+              value={
+                transactions
+                  ? transactions.length > 0
+                    ? valueOfTxs(transactions).toLocaleString()
+                    : 0
+                  : undefined
+              }
               after=" ETH"
             >
               Value
             </DataBoxRow>
 
             <DataBoxRow
-              value={transactions ? averageFeeOfTxs(transactions).toLocaleString() : undefined}
+              value={
+                transactions
+                  ? transactions.length > 0
+                    ? averageFeeOfTxs(transactions).toLocaleString()
+                    : 0
+                  : undefined
+              }
               after=" Gwei"
             >
               Average Fee
