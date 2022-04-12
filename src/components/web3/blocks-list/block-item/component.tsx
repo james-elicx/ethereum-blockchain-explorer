@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import type { BlockWithTransactions, TransactionResponse } from '@ethersproject/abstract-provider';
-import { BigNumber, utils } from 'ethers';
 import moment from 'moment';
+import { valueOfTxs } from '../../../../utils';
 import { FlexBox } from '../../../../components';
 import './component.scss';
 
@@ -14,16 +14,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 moment.relativeTimeThreshold('ss', 0);
 
 const Transactions = memo(({ txs }: { txs: TransactionResponse[] }) => (
-  <span className="block-normal">
-    {parseFloat(
-      (+utils.formatEther(
-        txs.reduce((val, tx) => {
-          return val.add(tx.value);
-        }, BigNumber.from(0)),
-      )).toFixed(2),
-    )}{' '}
-    ETH
-  </span>
+  <span className="block-normal">{valueOfTxs(txs)} ETH</span>
 ));
 
 export const BlockItem = ({ block, ...rest }: Props): JSX.Element => (
