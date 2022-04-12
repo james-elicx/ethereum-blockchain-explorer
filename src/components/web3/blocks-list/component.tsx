@@ -4,10 +4,6 @@ import { FlexBox } from '../../../components';
 import { useInfura } from '../../../contexts';
 import { BlockItem } from './block-item';
 
-// const LoadingBlock = ({ children }: { children: ReactNode }): JSX.Element => (
-//   <div className="block-item">{children}</div>
-// );
-
 export const Blocks = (): JSX.Element => {
   const { blocks, loadingInitial } = useInfura();
 

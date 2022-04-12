@@ -28,8 +28,6 @@ export const Address = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | boolean>(false);
 
-  useEffect(() => console.log(address), [address]);
-
   /**
    * Fetch the address if a user inputs an ENS domain, otherwise parse the address.
    */
@@ -39,41 +37,52 @@ export const Address = (): JSX.Element => {
       return;
     }
 
+    let cancel = false;
+
     if (id.endsWith('.eth')) {
+      console.debug('Resolving the ENS domain', id);
+
       cloudflare
         .resolveName(id)
         .then((resolved) => {
+          if (cancel) return;
+
           if (resolved) {
             setAddress(resolved);
           } else {
-            throw new Error('Invalid address');
+            throw new Error('Failed to resolve ENS domain');
           }
         })
         .catch((err) => {
           console.error(err);
-          sendToast(err.message);
-          setError(err.message);
+          sendToast('Failed to resolve ENS domain');
+          setError('Failed to resolve ENS domain');
         })
         .finally(() => setLoading(false));
     } else {
+      console.debug('Resolving the address', id);
+
       try {
         const addy = utils.getAddress(id);
+
+        if (cancel) return;
 
         if (addy) {
           setAddress(addy);
         } else {
-          throw new Error('Invalid address');
+          throw new Error('Failed to resolve address');
         }
       } catch (err) {
         console.error(err);
-        sendToast('Invalid address');
-        setError('Invalid address');
+        sendToast('Failed to resolve address');
+        setError('Failed to resolve address');
       }
 
       setLoading(false);
     }
 
     return () => {
+      cancel = true;
       setError(false);
       setLoading(true);
       setAddress(undefined);
@@ -86,9 +95,15 @@ export const Address = (): JSX.Element => {
   useEffect(() => {
     if (!address || !cloudflare) return;
 
+    let cancel = false;
+
+    console.debug('Fetching the balance for', address);
+
     cloudflare
       .getBalance(address)
       .then((bal) => {
+        if (cancel) return;
+
         setBalance(parseFloat((+utils.formatEther(bal)).toFixed(10)));
       })
       .catch((err) => {
@@ -96,9 +111,13 @@ export const Address = (): JSX.Element => {
         sendToast('Error getting balance.');
       });
 
+    console.debug('Fetching the tx count for', address);
+
     cloudflare
       .getTransactionCount(address)
       .then((count) => {
+        if (cancel) return;
+
         setTxCount(count);
       })
       .catch((err) => {
@@ -107,6 +126,7 @@ export const Address = (): JSX.Element => {
       });
 
     return () => {
+      cancel = true;
       setBalance(undefined);
       setTxCount(undefined);
     };
@@ -136,14 +156,14 @@ export const Address = (): JSX.Element => {
 
       <FlexBox wrap="wrap" justify="space-between" style={{ marginTop: 15 }}>
         <DataBox>
-          <DataBoxTitle>Address Info</DataBoxTitle>
+          <DataBoxTitle>Address Data</DataBoxTitle>
 
           <DataBoxContents>
             <DataBoxRow value={balance} after=" ETH">
               Balance
             </DataBoxRow>
 
-            <DataBoxRow value={txCount}>Transactions</DataBoxRow>
+            <DataBoxRow value={txCount?.toLocaleString()}>Transactions</DataBoxRow>
           </DataBoxContents>
         </DataBox>
 

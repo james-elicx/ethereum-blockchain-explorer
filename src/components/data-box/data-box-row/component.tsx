@@ -3,6 +3,7 @@ import { FlexBox, Skeleton } from '../../../components';
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   after?: string;
   before?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any;
   loadingHeight?: number | string;
 };
