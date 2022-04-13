@@ -12,12 +12,12 @@ import {
   Skeleton,
 } from '../../components';
 import { Avatar } from '../../components/web3';
-import { useCloudflare, useToast } from '../../contexts';
+import { useChainData, useToast } from '../../contexts';
 
 import './page.scss';
 
 export const Address = (): JSX.Element => {
-  const { cloudflare } = useCloudflare();
+  const { chainData } = useChainData();
   const { sendToast } = useToast();
   const { id } = useParams();
 
@@ -32,7 +32,7 @@ export const Address = (): JSX.Element => {
    * Fetch the address if a user inputs an ENS domain, otherwise parse the address.
    */
   useEffect(() => {
-    if (!id || !cloudflare) {
+    if (!id || !chainData) {
       if (!id) sendToast('Invalid address');
       return;
     }
@@ -42,7 +42,7 @@ export const Address = (): JSX.Element => {
     if (id.endsWith('.eth')) {
       console.debug('Resolving the ENS domain', id);
 
-      cloudflare
+      chainData
         .resolveName(id)
         .then((resolved) => {
           if (cancel) return;
@@ -87,19 +87,19 @@ export const Address = (): JSX.Element => {
       setLoading(true);
       setAddress(undefined);
     };
-  }, [id, sendToast, cloudflare]);
+  }, [id, sendToast, chainData]);
 
   /**
    * Fetch balance and transaction count for an address.
    */
   useEffect(() => {
-    if (!address || !cloudflare) return;
+    if (!address || !chainData) return;
 
     let cancel = false;
 
     console.debug('Fetching the balance for', address);
 
-    cloudflare
+    chainData
       .getBalance(address)
       .then((bal) => {
         if (cancel) return;
@@ -113,7 +113,7 @@ export const Address = (): JSX.Element => {
 
     console.debug('Fetching the tx count for', address);
 
-    cloudflare
+    chainData
       .getTransactionCount(address)
       .then((count) => {
         if (cancel) return;
@@ -130,7 +130,7 @@ export const Address = (): JSX.Element => {
       setBalance(undefined);
       setTxCount(undefined);
     };
-  }, [address, cloudflare, sendToast]);
+  }, [address, chainData, sendToast]);
 
   return error ? (
     <>

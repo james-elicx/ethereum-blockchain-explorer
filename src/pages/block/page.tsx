@@ -16,7 +16,7 @@ import {
   Skeleton,
 } from '../../components';
 // import { Avatar } from '../../components/web3';
-import { useCloudflare, useToast } from '../../contexts';
+import { useChainData, useToast } from '../../contexts';
 import { averageFeeOfTxs, trimAddress, valueOfTxs } from '../../utils';
 
 import './page.scss';
@@ -25,7 +25,7 @@ import './page.scss';
 moment.relativeTimeThreshold('ss', 0);
 
 export const Block = (): JSX.Element => {
-  const { cloudflare } = useCloudflare();
+  const { chainData } = useChainData();
   const { sendToast } = useToast();
   const { id } = useParams();
 
@@ -39,7 +39,7 @@ export const Block = (): JSX.Element => {
    * Fetch the block and it's transactions.
    */
   useEffect(() => {
-    if (!id || !cloudflare) {
+    if (!id || !chainData) {
       if (!id) sendToast('Invalid block');
       return;
     }
@@ -48,7 +48,7 @@ export const Block = (): JSX.Element => {
 
     console.debug('Getting data for block', id);
 
-    cloudflare
+    chainData
       .getBlockWithTransactions(id.startsWith('0x') ? id : parseInt(id, 10))
       .then((newBlock) => {
         if (cancel) return;
@@ -80,7 +80,7 @@ export const Block = (): JSX.Element => {
       setBlock(undefined);
       setTransactions(undefined);
     };
-  }, [id, sendToast, cloudflare]);
+  }, [id, sendToast, chainData]);
 
   return error ? (
     <>

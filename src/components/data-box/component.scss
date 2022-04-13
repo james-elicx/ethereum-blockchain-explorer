@@ -22,6 +22,15 @@
     max-width: calc(50% - 10px);
   }
 
+  &.data-box-max {
+    max-width: 100%;
+    flex: 0 0 100%;
+
+    // @include mq.mq($from: mobile, $until: wide) {
+
+    // }
+  }
+
   .data-box-title {
     padding: 10px;
     border-bottom: 1px solid v.$darkish;

@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { CloudflareProvider, ToastProvider, WalletProvider } from './contexts';
+import { ChainDataProvider, ToastProvider, WalletProvider } from './contexts';
 import { Address, App, Block, Maintenance } from './pages';
 import { Footer, Navigation } from './components';
 import './index.scss';
@@ -13,7 +13,7 @@ root.render(
   <StrictMode>
     <ToastProvider>
       <WalletProvider>
-        <CloudflareProvider>
+        <ChainDataProvider>
           <BrowserRouter>
             <Navigation />
 
@@ -26,7 +26,7 @@ root.render(
 
             <Footer />
           </BrowserRouter>
-        </CloudflareProvider>
+        </ChainDataProvider>
       </WalletProvider>
     </ToastProvider>
   </StrictMode>,
