@@ -39,6 +39,14 @@
 
   .data-box-contents {
     padding: 10px;
+
+    &.data-box-contents-scroll-x {
+      overflow-x: scroll;
+    }
+
+    &.data-box-contents-scroll-y {
+      overflow-y: scroll;
+    }
   }
 
   .data-row {
