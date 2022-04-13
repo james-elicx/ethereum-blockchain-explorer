@@ -6,6 +6,8 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any;
   loadingHeight?: number | string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  rawValue?: any;
   titleStyle?: React.CSSProperties;
 };
 
@@ -14,7 +16,8 @@ export const DataBoxRow = ({
   value,
   before = '',
   after = '',
-  loadingHeight = 20.5,
+  loadingHeight = 19,
+  rawValue = value,
   titleStyle = {},
   ...rest
 }: Props): JSX.Element => (
@@ -23,7 +26,7 @@ export const DataBoxRow = ({
       {children}
     </span>
     {value !== undefined ? (
-      <span className="data-row-value" {...rest}>
+      <span className="data-row-value" title={`${before}${rawValue}${after}`} {...rest}>
         {before}
         {value}
         {after}

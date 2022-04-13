@@ -14,9 +14,11 @@ export const Avatar = memo(
 
     const [avatar, setAvatar] = useState<string | null>(null);
 
-    metaMask?.getAvatar(address).then((data) => {
-      if (avatar) setAvatar(data);
-    });
+    if (address.endsWith('.eth')) {
+      metaMask?.getAvatar(address).then((data) => {
+        if (avatar) setAvatar(data);
+      });
+    }
 
     return avatar ? (
       <img style={{ width: diameter, height: diameter, ...style }} src={avatar} alt="avatar" />

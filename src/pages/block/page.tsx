@@ -2,6 +2,7 @@ import type {
   Block as IBlock,
   TransactionResponse as ITransaction,
 } from '@ethersproject/abstract-provider';
+import { utils } from 'ethers';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
@@ -14,8 +15,13 @@ import {
   Loading,
   SearchBox,
   Skeleton,
+  Table,
+  TableCell,
+  TableContents,
+  TableHeader,
+  TableRow,
 } from '../../components';
-// import { Avatar } from '../../components/web3';
+import { Avatar } from '../../components/web3';
 import { useChainData, useToast } from '../../contexts';
 import { averageFeeOfTxs, trimAddress, valueOfTxs } from '../../utils';
 
@@ -30,7 +36,9 @@ export const Block = (): JSX.Element => {
   const { id } = useParams();
 
   const [block, setBlock] = useState<Omit<IBlock, 'transactions'> | undefined>(undefined);
-  const [transactions, setTransactions] = useState<ITransaction[] | undefined>(undefined);
+  const [transactions, setTransactions] = useState<
+    (ITransaction & { to: string; timestamp: number })[] | undefined
+  >(undefined);
 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | boolean>(false);
@@ -57,7 +65,13 @@ export const Block = (): JSX.Element => {
           const { transactions: txs, ...blockData } = newBlock;
 
           setBlock(blockData);
-          setTransactions(txs.map((tx) => ({ ...tx, timestamp: blockData.timestamp })));
+          setTransactions(
+            txs.map((tx) => ({
+              ...tx,
+              timestamp: blockData.timestamp,
+              to: tx.to || '0x0000000000000000000000000000000000000000',
+            })),
+          );
 
           console.debug('Retrieved data for block', id, newBlock);
         } else {
@@ -112,6 +126,7 @@ export const Block = (): JSX.Element => {
                   ? moment(block.timestamp * 1000).format('MMM Do, YYYY (hh:mm:ss A)')
                   : undefined
               }
+              rawValue={block ? moment(block.timestamp * 1000).fromNow() : undefined}
             >
               Timestamp
             </DataBoxRow>
@@ -158,12 +173,20 @@ export const Block = (): JSX.Element => {
               value={
                 block ? (
                   block?.miner ? (
-                    <Link to={`/address/${block.miner}`}>{trimAddress(block.miner)}</Link>
+                    <Link to={`/address/${block.miner}`}>
+                      <Avatar
+                        address={block.miner}
+                        diameter={19}
+                        style={{ verticalAlign: 'text-bottom', marginRight: 10 }}
+                      />
+                      {trimAddress(block.miner)}
+                    </Link>
                   ) : (
                     'No address'
                   )
                 ) : undefined
               }
+              rawValue={block?.miner as string}
             >
               Miner
             </DataBoxRow>
@@ -175,6 +198,107 @@ export const Block = (): JSX.Element => {
             <DataBoxRow value={block ? block.gasLimit.toBigInt().toLocaleString() : undefined}>
               Gas Limit
             </DataBoxRow>
+          </DataBoxContents>
+        </DataBox>
+
+        <DataBox fill>
+          <DataBoxTitle>Transactions</DataBoxTitle>
+
+          <DataBoxContents scrollX scrollY>
+            <Table>
+              <TableHeader>
+                <TableCell type="header" minWidth={250} width={270}>
+                  Hash
+                </TableCell>
+                <TableCell type="header" minWidth={115} width={125}>
+                  Age
+                </TableCell>
+                <TableCell type="header" minWidth={135} width={140}>
+                  From
+                </TableCell>
+                <TableCell type="header" minWidth={135} width={140}>
+                  To
+                </TableCell>
+                <TableCell type="header" minWidth={100} width={120}>
+                  Value
+                </TableCell>
+                <TableCell type="header" minWidth={100} width={120}>
+                  Fee
+                </TableCell>
+              </TableHeader>
+
+              <TableContents>
+                {transactions ? (
+                  transactions.length > 0 ? (
+                    transactions?.map((tx) => (
+                      <TableRow key={tx.hash}>
+                        <TableCell title={tx.hash}>
+                          <span className="table-truncate" style={{ maxWidth: 250 }}>
+                            <Link to={`/tx/${tx.hash}`}>{tx.hash}</Link>
+                          </span>
+                        </TableCell>
+                        <TableCell
+                          title={moment(tx.timestamp * 1000).format('MMM Do, YYYY (hh:mm:ss A)')}
+                        >
+                          {tx.timestamp ? moment(tx.timestamp * 1000).fromNow() : 'No timestamp'}
+                        </TableCell>
+                        <TableCell title={tx.from}>
+                          <Link to={`/address/${tx.from}`}>
+                            <Avatar
+                              address={tx.from}
+                              diameter={19}
+                              style={{ verticalAlign: 'text-bottom', marginRight: 10 }}
+                            />
+                            {trimAddress(tx.from)}
+                          </Link>
+                        </TableCell>
+                        <TableCell title={tx.to}>
+                          <Link to={`/address/${tx.to}`}>
+                            <Avatar
+                              address={tx.to}
+                              diameter={19}
+                              style={{ verticalAlign: 'text-bottom', marginRight: 10 }}
+                            />
+                            {trimAddress(tx.to)}
+                          </Link>
+                        </TableCell>
+                        <TableCell title={`${utils.formatEther(tx.value)} ETH`}>
+                          {parseFloat((+utils.formatEther(tx.value)).toFixed(5))} ETH
+                        </TableCell>
+                        <TableCell title={`${utils.formatUnits(tx.gasPrice || 0, 'gwei')} Gwei`}>
+                          {(+utils.formatUnits(tx.gasPrice || 0, 'gwei')).toFixed(2)} Gwei
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <span>No transactions found.</span>
+                  )
+                ) : (
+                  [...Array(5)].map((_, i) => (
+                    <TableRow key={`table-loading-${i}`}>
+                      <TableCell>
+                        <Skeleton height={19} />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton height={19} />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton height={19} />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton height={19} />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton height={19} />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton height={19} />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableContents>
+            </Table>
           </DataBoxContents>
         </DataBox>
       </FlexBox>

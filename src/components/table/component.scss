@@ -1,0 +1,35 @@
+.table {
+  .table-header {
+    .table-header-row {
+      text-align: left;
+
+      &:first-of-type > .table-header-cell {
+        padding-top: 0;
+      }
+    }
+  }
+
+  .table-contents {
+    .table-contents-row:last-of-type > .table-contents-cell {
+      padding-bottom: 0;
+    }
+
+    .table-contents-cell {
+      font-weight: 300;
+    }
+  }
+
+  .table-contents-row > .table-cell:first-child,
+  .table-header-row > .table-cell:first-child {
+    padding-left: 0;
+  }
+
+  .table-contents-row > .table-cell:last-child,
+  .table-header-row > .table-cell:last-child {
+    padding-right: 0;
+  }
+
+  .table-cell {
+    padding: 5px 10px;
+  }
+}
