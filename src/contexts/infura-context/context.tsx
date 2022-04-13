@@ -1,7 +1,7 @@
 import type { BlockWithTransactions } from '@ethersproject/abstract-provider';
 import { providers } from 'ethers';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { useCloudflare } from '../../contexts';
+import { useChainData } from '../../contexts';
 import type { IInfuraContext } from './context.types';
 
 const InfuraContext = createContext<IInfuraContext>(undefined as unknown as IInfuraContext);
@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const InfuraProvider = ({ children }: Props): JSX.Element => {
-  const { cloudflare } = useCloudflare();
+  const { chainData } = useChainData();
 
   const [infura, setInfura] = useState<providers.InfuraWebSocketProvider | undefined>(undefined);
 
@@ -27,7 +27,7 @@ export const InfuraProvider = ({ children }: Props): JSX.Element => {
    * Setup a websocket connection with Infura and fetch the last 5 blocks.
    */
   useEffect(() => {
-    if (!cloudflare) return;
+    if (!chainData) return;
 
     const provider = new providers.InfuraWebSocketProvider(
       providers.getNetwork('homestead'),
@@ -37,13 +37,13 @@ export const InfuraProvider = ({ children }: Props): JSX.Element => {
     setInfura(provider);
 
     // Fetch the last 5 blocks.
-    cloudflare
+    chainData
       .getBlockNumber()
       .then((blockNum) => {
         for (let i = 4; i >= 0; i--) {
           console.debug('New block:', blockNum - i);
 
-          provider
+          chainData
             .getBlockWithTransactions(blockNum - i)
             .then((block) => {
               setBlocks((prev) => prev.set(block.number, block));
@@ -59,11 +59,11 @@ export const InfuraProvider = ({ children }: Props): JSX.Element => {
                 return newTransactions;
               });
             })
-            .catch((e) => console.error('Cloudflare Ethereum Gateway Error:', e))
+            .catch((e) => console.error('ChainData Ethereum Gateway Error:', e))
             .finally(() => setLoadingInitial(false));
         }
       })
-      .catch((e) => console.error('Cloudflare Ethereum Gateway Error:', e));
+      .catch((e) => console.error('ChainData Ethereum Gateway Error:', e));
 
     return () => {
       if (provider) {
@@ -71,7 +71,7 @@ export const InfuraProvider = ({ children }: Props): JSX.Element => {
         setInfura(undefined);
       }
     };
-  }, [cloudflare]);
+  }, [chainData]);
 
   /**
    * Fetch the data for a block and add it to the relevant maps.
@@ -80,10 +80,10 @@ export const InfuraProvider = ({ children }: Props): JSX.Element => {
    */
   const onBlock = useCallback(
     (blockNum: number) => {
-      if (!cloudflare) return;
+      if (!chainData) return;
       console.debug('New block:', blockNum);
 
-      cloudflare.getBlockWithTransactions(blockNum).then((block) => {
+      chainData.getBlockWithTransactions(blockNum).then((block) => {
         setBlocks((prevBlocks) => prevBlocks.set(block.number, block));
 
         setTransactions((prev) => {
@@ -98,7 +98,7 @@ export const InfuraProvider = ({ children }: Props): JSX.Element => {
         });
       });
     },
-    [cloudflare],
+    [chainData],
   );
 
   /**
