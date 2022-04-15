@@ -129,13 +129,18 @@ export const Tx = () => {
     let cancel = false;
 
     if (transaction.blockNumber && transaction.blockNumber > 0) {
+      console.debug('Getting block', transaction.blockNumber, 'for transaction', transaction.hash);
+
       chainData
         .getBlock(transaction.blockNumber)
         .then((newBlock) => {
           if (cancel) return;
 
           if (newBlock) {
+            console.debug('Retrieved block for transaction', transaction.hash, newBlock);
             setBlock(newBlock);
+          } else {
+            throw new Error('Failed to retrieve block');
           }
         })
         .catch((err) => {
