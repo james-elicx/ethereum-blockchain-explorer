@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { default as BaseSkeleton } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 type Props = {
   className?: string;
@@ -17,8 +18,8 @@ export const Skeleton = ({
   width = '100%',
 }: Props): JSX.Element => (
   <BaseSkeleton
-    baseColor="#24242d"
-    highlightColor="#292937"
+    baseColor="var(--color-darkerish)"
+    highlightColor="var(--color-darkish)"
     count={count}
     height={height}
     width={width}
