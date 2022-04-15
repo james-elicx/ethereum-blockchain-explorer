@@ -31,4 +31,8 @@ input {
     background-color: v.$dark-hover;
     border-color: v.$dark-hover;
   }
+
+  &::placeholder {
+    color: v.$light-dull;
+  }
 }

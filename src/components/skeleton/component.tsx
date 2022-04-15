@@ -18,8 +18,8 @@ export const Skeleton = ({
   width = '100%',
 }: Props): JSX.Element => (
   <BaseSkeleton
-    baseColor="var(--color-darkerish)"
-    highlightColor="var(--color-darkish)"
+    baseColor="var(--color-loading-base)"
+    highlightColor="var(--color-loading-highlight)"
     count={count}
     height={height}
     width={width}

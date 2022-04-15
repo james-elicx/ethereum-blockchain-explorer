@@ -2,14 +2,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap');
 
 :root {
-  --color-lightest: #e9e9f0;
-  --color-light: #c8c8cf;
-  --color-darkish: #496083;
-  --color-darkerish: #425776;
-  --color-dark: #33435b;
-  --color-dark-hover: #425776;
-  --color-darker: #3b4d68;
-  --color-darkest: #242f40;
+  --color-lightest: #dcdce2;
+  --color-light: #b9b9c3;
+  --color-light-dull: #59596e;
+  --color-darkish: #39394c;
+  --color-dark: #181825;
+  --color-dark-hover: #2a2a3c;
+  --color-darker: #222231;
+  --color-darkest: #191927;
+  --color-loading-base: #1d1d2c;
+  --color-loading-highlight: #232331;
 }
 
 body {
