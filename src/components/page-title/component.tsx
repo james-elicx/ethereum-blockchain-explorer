@@ -1,6 +1,5 @@
 import clsx from 'clsx';
-import Skeleton from 'react-loading-skeleton';
-import { FlexBox } from '../flex-box';
+import { FlexBox, Skeleton } from '../../components';
 
 import './component.scss';
 
