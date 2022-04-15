@@ -1,6 +1,4 @@
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
-import { FlexBox } from '../../../components';
+import { FlexBox, Skeleton } from '../../../components';
 import { useInfura } from '../../../contexts';
 import { BlockItem } from './block-item';
 
@@ -9,8 +7,6 @@ export const Blocks = (): JSX.Element => {
 
   return loadingInitial ? (
     <Skeleton
-      baseColor="#24242d"
-      highlightColor="#292937"
       count={5}
       width={250}
       height={34.5}

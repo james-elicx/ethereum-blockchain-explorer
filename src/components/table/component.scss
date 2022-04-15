@@ -1,3 +1,5 @@
+@use 'src/variables' as v;
+
 .table {
   .table-header {
     .table-header-row {
@@ -5,6 +7,10 @@
 
       &:first-of-type > .table-header-cell {
         padding-top: 0;
+      }
+
+      .table-header-cell {
+        font-weight: v.$w-medium;
       }
     }
   }
