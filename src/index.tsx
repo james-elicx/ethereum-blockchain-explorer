@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ChainDataProvider, ToastProvider, WalletProvider } from './contexts';
-import { Address, App, Block, Maintenance } from './pages';
+import { Address, App, Block, Tx } from './pages';
 import { Footer, Navigation } from './components';
 import './index.scss';
 
@@ -19,7 +19,7 @@ root.render(
 
             <Routes>
               <Route path="/address/:id" element={<Address />} />
-              <Route path="/tx/:id" element={<Maintenance />} />
+              <Route path="/tx/:id" element={<Tx />} />
               <Route path="/block/:id" element={<Block />} />
               <Route path="*" element={<App />} />
             </Routes>

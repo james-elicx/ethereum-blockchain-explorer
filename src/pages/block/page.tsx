@@ -109,7 +109,7 @@ export const Block = (): JSX.Element => {
     <Loading>Loading block...</Loading>
   ) : (
     <FlexBox direction="col" style={{ width: '70%', margin: '15px 0' }}>
-      <PageTitle condition={block}>Block {block?.number}</PageTitle>
+      <PageTitle condition={block}>Block {block?.number.toLocaleString()}</PageTitle>
 
       <FlexBox wrap="wrap" justify="space-between" style={{ marginTop: 15 }}>
         <DataBox>
@@ -219,7 +219,7 @@ export const Block = (): JSX.Element => {
                   Value
                 </TableCell>
                 <TableCell type="header" minWidth={100} width={120}>
-                  Fee
+                  Gas Price
                 </TableCell>
               </TableHeader>
 
