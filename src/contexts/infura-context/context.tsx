@@ -59,11 +59,11 @@ export const InfuraProvider = ({ children }: Props): JSX.Element => {
                 return newTransactions;
               });
             })
-            .catch((e) => console.error('ChainData Ethereum Gateway Error:', e))
+            .catch((e) => console.error('Chain Data Error:', e))
             .finally(() => setLoadingInitial(false));
         }
       })
-      .catch((e) => console.error('ChainData Ethereum Gateway Error:', e));
+      .catch((e) => console.error('Chain Data Error:', e));
 
     return () => {
       if (provider) {
