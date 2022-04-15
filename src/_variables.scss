@@ -2,17 +2,17 @@
  * Colors.
  */
 
-$lightest: #eee;
-$light: #ccc;
-$darkish: #494957;
-$dark: #2f2f3a;
-$dark-hover: #383844;
-$darker: #292933;
-$darkest: #1a1a21;
-$active-background: #0b0b0e66;
-$active-highlight: #0b0b0e;
-$unread-background: #59597a66;
-$unread-highlight: #59597a;
+$lightest: var(--color-lightest);
+$light: var(--color-light);
+$darkish: var(--color-darkish);
+$dark: var(--color-dark);
+$dark-hover: var(--color-dark-hover);
+$darker: var(--color-darker);
+$darkest: var(--color-darkest);
+$active-background: var(--color-active-background);
+$active-highlight: var(--color-active-highlight);
+$unread-background: var(--color-unread-background);
+$unread-highlight: var(--color-unread-highlight);
 
 /*
  * Font weights.

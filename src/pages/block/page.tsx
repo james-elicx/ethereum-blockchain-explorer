@@ -13,6 +13,7 @@ import {
   DataBoxTitle,
   FlexBox,
   Loading,
+  PageTitle,
   SearchBox,
   Skeleton,
   Table,
@@ -24,8 +25,6 @@ import {
 import { Avatar } from '../../components/web3';
 import { useChainData, useToast } from '../../contexts';
 import { averageFeeOfTxs, trimAddress, valueOfTxs } from '../../utils';
-
-import './page.scss';
 
 // eslint-disable-next-line import/no-named-as-default-member
 moment.relativeTimeThreshold('ss', 0);
@@ -44,7 +43,7 @@ export const Block = (): JSX.Element => {
   const [error, setError] = useState<string | boolean>(false);
 
   /**
-   * Fetch the block and it's transactions.
+   * Fetch the block and its transactions.
    */
   useEffect(() => {
     if (!id || !chainData) {
@@ -79,11 +78,16 @@ export const Block = (): JSX.Element => {
         }
       })
       .catch((err) => {
+        if (cancel) return;
+
         console.error(err);
         sendToast('Failed to retrieve block');
         setError('Failed to retrieve block');
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (cancel) return;
+        setLoading(false);
+      });
 
     setLoading(false);
 
@@ -105,15 +109,7 @@ export const Block = (): JSX.Element => {
     <Loading>Loading block...</Loading>
   ) : (
     <FlexBox direction="col" style={{ width: '70%', margin: '15px 0' }}>
-      <FlexBox align="center">
-        {block ? (
-          <span className="page-title">Block {block.number}</span>
-        ) : (
-          <>
-            <Skeleton width={140} height={24} />
-          </>
-        )}
-      </FlexBox>
+      <PageTitle condition={block}>Block {block?.number.toLocaleString()}</PageTitle>
 
       <FlexBox wrap="wrap" justify="space-between" style={{ marginTop: 15 }}>
         <DataBox>
@@ -223,7 +219,7 @@ export const Block = (): JSX.Element => {
                   Value
                 </TableCell>
                 <TableCell type="header" minWidth={100} width={120}>
-                  Fee
+                  Gas Price
                 </TableCell>
               </TableHeader>
 

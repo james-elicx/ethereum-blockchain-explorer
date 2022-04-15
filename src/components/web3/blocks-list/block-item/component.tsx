@@ -21,7 +21,7 @@ export const BlockItem = ({ block, ...rest }: Props): JSX.Element => (
   <div className="block-item" {...rest}>
     <FlexBox direction="col" align="flex-start">
       <Link to={`/block/${block.number}`} className="block-heading">
-        {block.number}
+        {block.number.toLocaleString()}
       </Link>
       <span className="block-normal">{moment(block.timestamp * 1000).fromNow()}</span>
     </FlexBox>

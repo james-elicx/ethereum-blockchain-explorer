@@ -10,3 +10,4 @@ export * from './skeleton';
 export * from './data-box';
 export * from './loading';
 export * from './table';
+export * from './page-title';
