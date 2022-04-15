@@ -21,9 +21,7 @@ export const Blocks = (): JSX.Element => {
       {[...blocks.values()]
         .sort((a, b) => b.number - a.number)
         .slice(0, 5)
-        .map((block) => (
-          <BlockItem key={block.number} block={block} />
-        ))}
+        .map((block) => block && block.number && <BlockItem key={block.number} block={block} />)}
     </FlexBox>
   );
 };

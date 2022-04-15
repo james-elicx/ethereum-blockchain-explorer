@@ -26,9 +26,7 @@ export const Transactions = () => {
         })
         .slice(1)
         .slice(-5)
-        .map((tx) => (
-          <TransactionItem key={tx.hash} tx={tx} />
-        ))}
+        .map((tx) => tx && tx.hash && <TransactionItem key={tx.hash} tx={tx} />)}
     </FlexBox>
   );
 };
